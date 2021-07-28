@@ -39,13 +39,16 @@ const getGraphCals = (context: WebPartContext, calSettings:{CalType:string, Titl
             .then((client :MSGraphClient)=>{
                 client
                     .api(graphUrl)
+                    .header('Prefer','outlook.timezone="Eastern Standard Time"')
                     .get((error, response: any, rawResponse?: any)=>{
                         response.value.map((result:any)=>{
                             calEvents.push({
                                 id: result.id,
                                 title: result.subject,
-                                start: formatStartDate(result.start.dateTime),
-                                end: formatStartDate(result.end.dateTime),
+                                // start: formatStartDate(result.start.dateTime),
+                                // end: formatStartDate(result.end.dateTime),
+                                start: result.start.dateTime,
+                                end: result.end.dateTime,
                                 _location: result.location.displayName,
                                 _body: result.body.content
                             });
